@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant POS</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ── Top Bar ─────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="logo">🍽 My Restaurant</span>
+    <span class="tagline">Point of Sale</span>
+  </div>
+  <div class="topbar-right">
+    <button class="nav-btn active" onclick="showPage('pos')">POS</button>
+    <button class="nav-btn" onclick="showPage('menu-admin')">Menu</button>
+    <button class="nav-btn" onclick="showPage('orders')">Orders</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: POS                                  -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-pos" class="page active">
+  <div class="pos-layout">
+
+    <!-- LEFT: Menu Panel -->
+    <div class="menu-panel">
+      <div class="panel-head">
+        <h2>Menu</h2>
+        <input id="search" class="search" placeholder="Search items…" oninput="filterMenu()">
+      </div>
+      <div class="cat-bar" id="cat-bar"></div>
+      <div class="menu-grid" id="menu-grid">
+        <p class="loading">Loading menu…</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Bill Panel -->
+    <div class="bill-panel">
+
+      <!-- Table Selector -->
+      <div class="table-section">
+        <h3>Tables</h3>
+        <div class="table-grid" id="table-grid">
+          <p class="loading">Loading…</p>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div class="order-section">
+        <div class="order-head">
+          <h3>Order — <span id="active-table-label">Select a table</span></h3>
+          <button class="icon-btn" onclick="clearOrder()" title="Clear order">✕</button>
+        </div>
+        <div class="order-items" id="order-items">
+          <p class="empty-msg">No items yet. Pick a table and add items.</p>
+        </div>
+      </div>
+
+      <!-- Totals + Actions -->
+      <div class="bill-foot">
+        <div class="gst-row">
+          <label>GST Rate</label>
+          <select id="gst-select" onchange="renderBill()">
+            <option value="0">0%</option>
+            <option value="5" selected>5%</option>
+            <option value="12">12%</option>
+            <option value="18">18%</option>
+          </select>
+        </div>
+        <div class="totals">
+          <div class="tot-row"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+          <div class="tot-row"><span id="gst-label">GST (5%)</span><span id="gst-amt">₹0.00</span></div>
+          <div class="tot-row grand"><span>Total</span><span id="total">₹0.00</span></div>
+        </div>
+        <div class="bill-actions">
+          <button class="btn-secondary" onclick="saveOrder()">💾 Save</button>
+          <button class="btn-primary" onclick="printBill()">🖨 Print Bill</button>
+        </div>
+        <button class="btn-pay" onclick="markPaid()">✅ Mark as Paid & Free Table</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: MENU ADMIN                           -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-menu-admin" class="page">
+  <div class="admin-layout">
+    <div class="admin-head">
+      <h2>Manage Menu</h2>
+      <button class="btn-primary" onclick="openAddModal()">+ Add Item</button>
+    </div>
+    <table class="admin-table">
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Category</th><th>Price</th><th>Veg</th><th>Action</th></tr>
+      </thead>
+      <tbody id="admin-table-body">
+        <tr><td colspan="6" class="loading">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PAGE: ORDERS                               -->
+<!-- ══════════════════════════════════════════ -->
+<div id="page-orders" class="page">
+  <div class="admin-layout">
+    <div class="admin-head">
+      <h2>Today's Orders</h2>
+      <button class="btn-secondary" onclick="loadOrders()">↺ Refresh</button>
+    </div>
+    <table class="admin-table">
+      <thead>
+        <tr><th>Order #</th><th>Table</th><th>Status</th><th>GST%</th><th>Time</th><th>Action</th></tr>
+      </thead>
+      <tbody id="orders-table-body">
+        <tr><td colspan="6" class="loading">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- MODAL: Add / Edit Menu Item               -->
+<!-- ══════════════════════════════════════════ -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3 id="modal-title">Add Menu Item</h3>
+      <button class="icon-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id">
+      <label>Item Name *</label>
+      <input type="text" id="edit-name" placeholder="e.g. Masala Dosa">
+      <label>Category *</label>
+      <select id="edit-category">
+        <option>Starters</option>
+        <option>Mains</option>
+        <option>Rice & Breads</option>
+        <option>Beverages</option>
+        <option>Desserts</option>
+      </select>
+      <label>Price (₹) *</label>
+      <input type="number" id="edit-price" placeholder="e.g. 120" min="1">
+      <label class="checkbox-label">
+        <input type="checkbox" id="edit-veg" checked>
+        Vegetarian
+      </label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveMenuItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<script src="images.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
