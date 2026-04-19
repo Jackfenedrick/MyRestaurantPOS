@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login — My Restaurant POS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;background:#f0f0eb;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;padding:36px 32px;width:100%;max-width:380px;box-shadow:0 4px 24px rgba(0,0,0,0.10)}
+.top{text-align:center;margin-bottom:28px}
+.ico{font-size:48px}
+.rname{font-size:22px;font-weight:700;color:#111;margin-top:10px}
+.sub{font-size:13px;color:#888;margin-top:4px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:13px;font-weight:600;color:#555;margin-bottom:5px}
+.fg input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #ddd;font-size:14px;outline:none;transition:border .2s}
+.fg input:focus{border-color:#1D9E75}
+.btn{width:100%;padding:13px;background:#1D9E75;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;letter-spacing:.3px}
+.btn:active{background:#0F6E56}
+.err{background:#fff0f0;color:#c0392b;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none;border:1px solid #f5c6cb}
+.divider{border:none;border-top:1px solid #eee;margin:22px 0}
+.accounts{background:#f0faf5;border-radius:10px;padding:14px 16px;font-size:13px}
+.accounts b{display:block;color:#1D9E75;margin-bottom:8px;font-size:14px}
+.arow{display:flex;justify-content:space-between;padding:4px 0;color:#333;border-bottom:1px solid #e0f0e8}
+.arow:last-child{border:none}
+.arow span:last-child{font-family:monospace;color:#0F6E56;font-weight:600}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top">
+    <div class="ico">🍽️</div>
+    <div class="rname">My Restaurant</div>
+    <div class="sub">Point of Sale — Staff Login</div>
+  </div>
+  <div class="err" id="err">❌ Wrong username or password. Try again!</div>
+  <div class="fg">
+    <label>Username</label>
+    <input type="text" id="un" placeholder="Enter your username" autocomplete="username">
+  </div>
+  <div class="fg">
+    <label>Password</label>
+    <input type="password" id="pw" placeholder="Enter your password" autocomplete="current-password">
+  </div>
+  <button class="btn" onclick="login()">Login →</button>
+  <hr class="divider">
+  <div class="accounts">
+    <b>🔑 Staff Accounts</b>
+    <div class="arow"><span>👑 Admin</span><span>admin / admin123</span></div>
+    <div class="arow"><span>💰 Cashier</span><span>cashier / cash123</span></div>
+    <div class="arow"><span>🍽 Waiter</span><span>waiter / wait123</span></div>
+  </div>
+</div>
+<script>
+document.addEventListener('keydown', e => { if(e.key === 'Enter') login(); });
+function login() {
+  const u = document.getElementById('un').value.trim().toLowerCase();
+  const p = document.getElementById('pw').value.trim();
+  const USERS = {
+    admin:   { pass: 'admin123', role: 'Admin' },
+    cashier: { pass: 'cash123',  role: 'Cashier' },
+    waiter:  { pass: 'wait123',  role: 'Waiter' },
+  };
+  if (USERS[u] && USERS[u].pass === p) {
+    sessionStorage.setItem('pos_user', u);
+    sessionStorage.setItem('pos_role', USERS[u].role);
+    window.location.href = '/pos.html';
+  } else {
+    document.getElementById('err').style.display = 'block';
+    document.getElementById('pw').value = '';
+    document.getElementById('pw').focus();
+  }
+}
+</script>
+</body>
+</html>

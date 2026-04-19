@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0;url=/login.html">
+<title>My Restaurant POS</title>
+</head>
+<body>
+<script>
+  // If already logged in, go to POS. Otherwise go to login.
+  if (sessionStorage.getItem('pos_user')) {
+    window.location.href = '/pos.html';
+  } else {
+    window.location.href = '/login.html';
+  }
+</script>
+</body>
+</html>
