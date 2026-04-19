@@ -302,7 +302,7 @@ tbody tr:last-child td{border:none}
 // ── AUTH CHECK ──
 const posUser = sessionStorage.getItem('pos_user');
 const posRole = sessionStorage.getItem('pos_role');
-if (!posUser) { window.location.href = '/login.html'; }
+if (!posUser) { window.location.href = '/login.html'; throw new Error('not logged in'); }
 else { const t = document.getElementById('user-tag'); if(t) t.textContent = '👤 ' + posRole; }
 
 function logout() {

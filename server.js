@@ -15,9 +15,14 @@ initDB().then(() => {
   app.use('/api/orders', require('./routes/orders'));
   app.use('/api/tables', require('./routes/tables'));
 
-  // All other routes → index.html
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // Root → login page
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  });
+
+  // pos page
+  app.get('/pos', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pos.html'));
   });
 
   app.listen(PORT, () => {
