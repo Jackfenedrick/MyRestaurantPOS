@@ -292,7 +292,10 @@
       font-size: 14px;
       font-weight: 700;
       color: #1D9E75;
-      display: block
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden
     }
 
     /* ── BILL PANEL ── */
@@ -855,52 +858,57 @@
       }
 
       .mcard img {
-        height: 110px
+        height: 90px
       }
 
       .mcard-name {
-        font-size: 13px
+        font-size: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden
       }
+    }
 
-      .mcard-price {
-        font-size: 13px
-      }
+    .mcard-price {
+      font-size: 13px
+    }
 
-      .bill-panel {
-        position: fixed;
-        bottom: 58px;
-        left: 0;
-        right: 0;
-        height: 85vh;
-        border-radius: 16px 16px 0 0;
-        transform: translateY(100%);
-        transition: transform .3s ease;
-        z-index: 190;
-        border: none;
-        box-shadow: 0 -4px 30px rgba(0, 0, 0, .2)
-      }
+    .bill-panel {
+      position: fixed;
+      bottom: 58px;
+      left: 0;
+      right: 0;
+      height: 85vh;
+      border-radius: 16px 16px 0 0;
+      transform: translateY(100%);
+      transition: transform .3s ease;
+      z-index: 190;
+      border: none;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, .2)
+    }
 
-      .bill-panel.open {
-        transform: translateY(0)
-      }
+    .bill-panel.open {
+      transform: translateY(0)
+    }
 
-      .close-bill {
-        display: block
-      }
+    .close-bill {
+      display: block
+    }
 
-      .fab {
-        display: flex
-      }
+    .fab {
+      display: flex
+    }
 
-      .tbtn {
-        padding: 8px 12px;
-        font-size: 13px
-      }
+    .tbtn {
+      padding: 8px 12px;
+      font-size: 13px
+    }
 
-      .qbtn {
-        width: 30px;
-        height: 30px
-      }
+    .qbtn {
+      width: 30px;
+      height: 30px
+    }
     }
 
     @media(max-width:380px) {
