@@ -1,450 +1,1241 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>My Restaurant POS</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:sans-serif;background:#f0f0eb;color:#111;font-size:14px;overflow-x:hidden}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>My Restaurant POS</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent
+    }
 
-/* ── TOP BAR ── */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:#fff;border-bottom:1px solid #e0e0d8;position:sticky;top:0;z-index:100}
-.topbar-left{display:flex;align-items:center;gap:10px}
-.logo{font-size:17px;font-weight:700;color:#111}
-.topbar-right{display:flex;align-items:center;gap:8px}
-.nav-btn{padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:transparent;font-size:13px;cursor:pointer;color:#666}
-.nav-btn.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
-.user-tag{font-size:12px;color:#888;background:#f5f5f0;padding:4px 10px;border-radius:20px;border:1px solid #ddd}
-.logout-btn{padding:6px 12px;border-radius:20px;border:1px solid #ddd;background:transparent;font-size:12px;cursor:pointer;color:#e74c3c}
+    body {
+      font-family: sans-serif;
+      background: #f0f0eb;
+      color: #111;
+      font-size: 14px;
+      overflow-x: hidden
+    }
 
-/* ── BOTTOM NAV (mobile) ── */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:58px;background:#fff;border-top:1px solid #e0e0d8;z-index:200;flex-direction:row}
-.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;font-size:10px;color:#888;cursor:pointer;padding:6px 0}
-.bnav-btn .icon{font-size:22px;line-height:1}
-.bnav-btn.active{color:#1D9E75}
+    /* ── TOP BAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 52px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0d8;
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
 
-/* ── PAGES ── */
-.page{display:none}
-.page.active{display:block}
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
 
-/* ── POS LAYOUT ── */
-.pos-wrap{display:grid;grid-template-columns:1fr 340px;gap:14px;padding:14px;height:calc(100vh - 52px)}
+    .logo {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111
+    }
 
-/* ── MENU PANEL ── */
-.menu-panel{background:#fff;border-radius:12px;border:1px solid #e0e0d8;display:flex;flex-direction:column;overflow:hidden}
-.panel-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #e0e0d8;flex-shrink:0}
-.panel-head h2{font-size:15px;font-weight:700;white-space:nowrap}
-.search{flex:1;padding:8px 12px;border-radius:20px;border:1px solid #ddd;font-size:13px;outline:none;background:#f5f5f0;min-width:0}
-.search:focus{border-color:#1D9E75}
-.cat-bar{display:flex;gap:6px;padding:10px 14px;overflow-x:auto;border-bottom:1px solid #e0e0d8;flex-shrink:0;scrollbar-width:none}
-.cat-bar::-webkit-scrollbar{display:none}
-.cat-btn{padding:5px 14px;border-radius:20px;border:1px solid #ddd;background:transparent;font-size:12px;cursor:pointer;white-space:nowrap;color:#666}
-.cat-btn.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
-.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:12px 14px;overflow-y:auto;flex:1}
-.mcard{background:#fff;border:1.5px solid #e8e8e0;border-radius:12px;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,transform .1s;height:fit-content}
-.mcard:hover{border-color:#1D9E75;transform:translateY(-2px)}
-.mcard:active{transform:scale(0.97)}
-.mcard img{width:100%;height:110px;object-fit:cover;display:block;background:#eee;flex-shrink:0}
-.mcard-body{padding:8px 10px 10px;background:#fff}
-.mcard-veg{font-size:10px;color:#888;margin-bottom:3px;display:block}
-.mcard-name{font-size:13px;font-weight:700;color:#111;line-height:1.3;margin-bottom:4px;display:block}
-.mcard-price{font-size:14px;font-weight:700;color:#1D9E75;display:block}
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
 
-/* ── BILL PANEL ── */
-.bill-panel{background:#fff;border-radius:12px;border:1px solid #e0e0d8;display:flex;flex-direction:column;overflow:hidden}
-.close-bill{display:none;background:none;border:none;font-size:13px;color:#888;padding:10px 14px 4px;cursor:pointer;text-align:left}
-.table-sec{padding:10px 14px;border-bottom:1px solid #e0e0d8;flex-shrink:0}
-.table-sec h3{font-size:13px;font-weight:700;margin-bottom:8px}
-.table-grid{display:flex;flex-wrap:wrap;gap:6px}
-.tbtn{padding:6px 10px;border-radius:8px;border:1.5px solid #ddd;background:#f5f5f0;font-size:12px;cursor:pointer;color:#111;font-weight:600;transition:all .15s}
-.tbtn.occupied{border-color:#f39c12;color:#f39c12;background:#fffbf0}
-.tbtn.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
-.order-sec{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:10px 14px 6px;min-height:0}
-.order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-shrink:0}
-.order-head h3{font-size:13px;font-weight:700}
-.clear-btn{background:none;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;color:#888}
-.order-items{flex:1;overflow-y:auto}
-.orow{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #f0f0e8}
-.oname{flex:1;font-size:12px;font-weight:500}
-.qty-ctrl{display:flex;align-items:center;gap:4px}
-.qbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid #ddd;background:#f5f5f0;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700}
-.qnum{font-size:13px;min-width:20px;text-align:center;font-weight:700}
-.oprice{font-size:12px;min-width:52px;text-align:right;font-weight:600;font-family:monospace}
-.empty-msg{color:#aaa;font-size:13px;text-align:center;padding:30px 0}
+    .nav-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: transparent;
+      font-size: 13px;
+      cursor: pointer;
+      color: #666
+    }
 
-/* ── BILL FOOTER ── */
-.bill-foot{padding:10px 14px 14px;border-top:1px solid #e0e0d8;flex-shrink:0}
-.gst-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.gst-row label{font-size:12px;color:#888;font-weight:600}
-.gst-row select{padding:5px 8px;border-radius:6px;border:1px solid #ddd;font-size:12px;background:#f5f5f0}
-.totals{margin-bottom:10px}
-.trow{display:flex;justify-content:space-between;font-size:13px;color:#888;padding:3px 0;font-family:monospace}
-.trow.grand{font-size:16px;font-weight:700;color:#111;border-top:1.5px dashed #ddd;padding-top:8px;margin-top:4px}
-.action-row{display:flex;gap:8px;margin-bottom:8px}
-.btn-save{flex:1;padding:10px;border-radius:10px;border:1.5px solid #ddd;background:#f5f5f0;font-size:13px;font-weight:600;cursor:pointer;color:#111}
-.btn-print{flex:2;padding:10px;border-radius:10px;border:none;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
-.btn-paid{width:100%;padding:10px;border-radius:10px;border:1.5px solid #27ae60;background:#f0faf5;color:#27ae60;font-size:13px;font-weight:700;cursor:pointer}
-.btn-save:active,.btn-print:active,.btn-paid:active{opacity:.8}
+    .nav-btn.active {
+      background: #1D9E75;
+      color: #fff;
+      border-color: #1D9E75
+    }
 
-/* ── FAB (mobile bill button) ── */
-.fab{display:none;position:fixed;bottom:70px;right:16px;background:#1D9E75;color:#fff;border:none;border-radius:30px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(29,158,117,.45);z-index:150;align-items:center;gap:8px}
-.fab-count{background:#fff;color:#1D9E75;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+    .user-tag {
+      font-size: 12px;
+      color: #888;
+      background: #f5f5f0;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid #ddd
+    }
 
-/* ── ADMIN PAGES ── */
-.admin-wrap{max-width:860px;margin:0 auto;padding:16px}
-.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.admin-head h2{font-size:18px;font-weight:700}
-.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid #e0e0d8}
-table{width:100%;border-collapse:collapse;background:#fff;min-width:480px}
-thead{background:#f5f5f0}
-th,td{padding:11px 14px;text-align:left;border-bottom:1px solid #e8e8e0;font-size:13px}
-th{font-weight:700;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em}
-tbody tr:hover{background:#fafaf7}
-tbody tr:last-child td{border:none}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
-.bveg{background:#e1f5ee;color:#0F6E56}
-.bnveg{background:#fff0f0;color:#c0392b}
-.bopen{background:#fff8e0;color:#856a00}
-.bpaid{background:#e1f5ee;color:#0F6E56}
-.lbtn{background:none;border:none;font-size:13px;cursor:pointer;color:#1D9E75;padding:2px 4px}
-.lbtn.del{color:#e74c3c}
-.btn-add{padding:9px 18px;border-radius:10px;border:none;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
-.btn-refresh{padding:9px 14px;border-radius:10px;border:1px solid #ddd;background:#f5f5f0;font-size:13px;cursor:pointer}
+    .logout-btn {
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: transparent;
+      font-size: 12px;
+      cursor: pointer;
+      color: #e74c3c
+    }
 
-/* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:300}
-.overlay.hidden{display:none}
-.modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:460px;overflow:hidden}
-.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #eee}
-.modal-head h3{font-size:15px;font-weight:700}
-.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
-.modal-body label{font-size:12px;color:#888;font-weight:600;margin-top:4px}
-.modal-body input,.modal-body select{padding:10px 12px;border-radius:8px;border:1.5px solid #ddd;font-size:14px;width:100%;background:#f5f5f0;outline:none}
-.modal-body input:focus,.modal-body select:focus{border-color:#1D9E75}
-.chk-label{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:#333}
-.modal-foot{display:flex;gap:8px;padding:12px 20px 24px;border-top:1px solid #eee}
-.mcancel{flex:1;padding:10px;border-radius:10px;border:1px solid #ddd;background:#f5f5f0;font-size:13px;cursor:pointer}
-.msave{flex:2;padding:10px;border-radius:10px;border:none;background:#1D9E75;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+    /* ── BOTTOM NAV (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 58px;
+      background: #fff;
+      border-top: 1px solid #e0e0d8;
+      z-index: 200;
+      flex-direction: row
+    }
 
-/* ── BILL OVERLAY (mobile) ── */
-.bill-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:180}
-.bill-overlay.show{display:block}
+    .bnav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      background: none;
+      border: none;
+      font-size: 10px;
+      color: #888;
+      cursor: pointer;
+      padding: 6px 0
+    }
 
-/* ════════════ MOBILE ════════════ */
-@media(max-width:640px){
-  .bottom-nav{display:flex}
-  .topbar-right .nav-btn,.topbar-right .logout-btn,.user-tag{display:none}
-  .page.active{padding-bottom:58px}
-  .pos-wrap{display:block;padding:10px;height:calc(100vh - 52px - 58px);overflow-y:auto}
-  .menu-panel{height:calc(100vh - 52px - 58px - 20px)}
-  .menu-grid{grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}
-  .mcard img{height:110px}
-  .mcard-name{font-size:13px}
-  .mcard-price{font-size:13px}
+    .bnav-btn .icon {
+      font-size: 22px;
+      line-height: 1
+    }
 
-  .bill-panel{position:fixed;bottom:58px;left:0;right:0;height:85vh;border-radius:16px 16px 0 0;transform:translateY(100%);transition:transform .3s ease;z-index:190;border:none;box-shadow:0 -4px 30px rgba(0,0,0,.2)}
-  .bill-panel.open{transform:translateY(0)}
-  .close-bill{display:block}
-  .fab{display:flex}
-  .tbtn{padding:8px 12px;font-size:13px}
-  .qbtn{width:30px;height:30px}
-}
-@media(max-width:380px){
-  .menu-grid{grid-template-columns:repeat(2,1fr);gap:6px;padding:8px}
-  .mcard img{height:75px}
-  .mcard-name{font-size:11px}
-}
-</style>
+    .bnav-btn.active {
+      color: #1D9E75
+    }
+
+    /* ── PAGES ── */
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block
+    }
+
+    /* ── POS LAYOUT ── */
+    .pos-wrap {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 14px;
+      padding: 14px;
+      height: calc(100vh - 52px)
+    }
+
+    /* ── MENU PANEL ── */
+    .menu-panel {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e0e0d8;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #e0e0d8;
+      flex-shrink: 0
+    }
+
+    .panel-head h2 {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap
+    }
+
+    .search {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      font-size: 13px;
+      outline: none;
+      background: #f5f5f0;
+      min-width: 0
+    }
+
+    .search:focus {
+      border-color: #1D9E75
+    }
+
+    .cat-bar {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      overflow-x: auto;
+      border-bottom: 1px solid #e0e0d8;
+      flex-shrink: 0;
+      scrollbar-width: none
+    }
+
+    .cat-bar::-webkit-scrollbar {
+      display: none
+    }
+
+    .cat-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: transparent;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      color: #666
+    }
+
+    .cat-btn.active {
+      background: #1D9E75;
+      color: #fff;
+      border-color: #1D9E75
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      padding: 12px 14px;
+      overflow-y: auto;
+      flex: 1
+    }
+
+    .mcard {
+      background: #fff;
+      border: 1.5px solid #e8e8e0;
+      border-radius: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .15s, transform .1s;
+      height: fit-content
+    }
+
+    .mcard:hover {
+      border-color: #1D9E75;
+      transform: translateY(-2px)
+    }
+
+    .mcard:active {
+      transform: scale(0.97)
+    }
+
+    .mcard img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+      flex-shrink: 0
+    }
+
+    .mcard-body {
+      padding: 8px 10px 10px;
+      background: #fff;
+      min-height: 70px
+    }
+
+    .mcard-veg {
+      font-size: 10px;
+      color: #888;
+      margin-bottom: 3px;
+      display: block
+    }
+
+    .mcard-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      display: block
+    }
+
+    .mcard-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1D9E75;
+      display: block
+    }
+
+    /* ── BILL PANEL ── */
+    .bill-panel {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e0e0d8;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .close-bill {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 13px;
+      color: #888;
+      padding: 10px 14px 4px;
+      cursor: pointer;
+      text-align: left
+    }
+
+    .table-sec {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0d8;
+      flex-shrink: 0
+    }
+
+    .table-sec h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .table-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .tbtn {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1.5px solid #ddd;
+      background: #f5f5f0;
+      font-size: 12px;
+      cursor: pointer;
+      color: #111;
+      font-weight: 600;
+      transition: all .15s
+    }
+
+    .tbtn.occupied {
+      border-color: #f39c12;
+      color: #f39c12;
+      background: #fffbf0
+    }
+
+    .tbtn.active {
+      background: #1D9E75;
+      color: #fff;
+      border-color: #1D9E75
+    }
+
+    .order-sec {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 14px 6px;
+      min-height: 0
+    }
+
+    .order-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-shrink: 0
+    }
+
+    .order-head h3 {
+      font-size: 13px;
+      font-weight: 700
+    }
+
+    .clear-btn {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #888
+    }
+
+    .order-items {
+      flex: 1;
+      overflow-y: auto
+    }
+
+    .orow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 0;
+      border-bottom: 1px solid #f0f0e8
+    }
+
+    .oname {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500
+    }
+
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    .qbtn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid #ddd;
+      background: #f5f5f0;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      font-weight: 700
+    }
+
+    .qnum {
+      font-size: 13px;
+      min-width: 20px;
+      text-align: center;
+      font-weight: 700
+    }
+
+    .oprice {
+      font-size: 12px;
+      min-width: 52px;
+      text-align: right;
+      font-weight: 600;
+      font-family: monospace
+    }
+
+    .empty-msg {
+      color: #aaa;
+      font-size: 13px;
+      text-align: center;
+      padding: 30px 0
+    }
+
+    /* ── BILL FOOTER ── */
+    .bill-foot {
+      padding: 10px 14px 14px;
+      border-top: 1px solid #e0e0d8;
+      flex-shrink: 0
+    }
+
+    .gst-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px
+    }
+
+    .gst-row label {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600
+    }
+
+    .gst-row select {
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 12px;
+      background: #f5f5f0
+    }
+
+    .totals {
+      margin-bottom: 10px
+    }
+
+    .trow {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #888;
+      padding: 3px 0;
+      font-family: monospace
+    }
+
+    .trow.grand {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111;
+      border-top: 1.5px dashed #ddd;
+      padding-top: 8px;
+      margin-top: 4px
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    .btn-save {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1.5px solid #ddd;
+      background: #f5f5f0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #111
+    }
+
+    .btn-print {
+      flex: 2;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #1D9E75;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn-paid {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1.5px solid #27ae60;
+      background: #f0faf5;
+      color: #27ae60;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn-save:active,
+    .btn-print:active,
+    .btn-paid:active {
+      opacity: .8
+    }
+
+    /* ── FAB (mobile bill button) ── */
+    .fab {
+      display: none;
+      position: fixed;
+      bottom: 70px;
+      right: 16px;
+      background: #1D9E75;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 13px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(29, 158, 117, .45);
+      z-index: 150;
+      align-items: center;
+      gap: 8px
+    }
+
+    .fab-count {
+      background: #fff;
+      color: #1D9E75;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800
+    }
+
+    /* ── ADMIN PAGES ── */
+    .admin-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px
+    }
+
+    .admin-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px
+    }
+
+    .admin-head h2 {
+      font-size: 18px;
+      font-weight: 700
+    }
+
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #e0e0d8
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      min-width: 480px
+    }
+
+    thead {
+      background: #f5f5f0
+    }
+
+    th,
+    td {
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid #e8e8e0;
+      font-size: 13px
+    }
+
+    th {
+      font-weight: 700;
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: .05em
+    }
+
+    tbody tr:hover {
+      background: #fafaf7
+    }
+
+    tbody tr:last-child td {
+      border: none
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .bveg {
+      background: #e1f5ee;
+      color: #0F6E56
+    }
+
+    .bnveg {
+      background: #fff0f0;
+      color: #c0392b
+    }
+
+    .bopen {
+      background: #fff8e0;
+      color: #856a00
+    }
+
+    .bpaid {
+      background: #e1f5ee;
+      color: #0F6E56
+    }
+
+    .lbtn {
+      background: none;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+      color: #1D9E75;
+      padding: 2px 4px
+    }
+
+    .lbtn.del {
+      color: #e74c3c
+    }
+
+    .btn-add {
+      padding: 9px 18px;
+      border-radius: 10px;
+      border: none;
+      background: #1D9E75;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn-refresh {
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #f5f5f0;
+      font-size: 13px;
+      cursor: pointer
+    }
+
+    /* ── MODAL ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 300
+    }
+
+    .overlay.hidden {
+      display: none
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      width: 100%;
+      max-width: 460px;
+      overflow: hidden
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eee
+    }
+
+    .modal-head h3 {
+      font-size: 15px;
+      font-weight: 700
+    }
+
+    .modal-body {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .modal-body label {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      margin-top: 4px
+    }
+
+    .modal-body input,
+    .modal-body select {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #ddd;
+      font-size: 14px;
+      width: 100%;
+      background: #f5f5f0;
+      outline: none
+    }
+
+    .modal-body input:focus,
+    .modal-body select:focus {
+      border-color: #1D9E75
+    }
+
+    .chk-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #333
+    }
+
+    .modal-foot {
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px 24px;
+      border-top: 1px solid #eee
+    }
+
+    .mcancel {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #f5f5f0;
+      font-size: 13px;
+      cursor: pointer
+    }
+
+    .msave {
+      flex: 2;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #1D9E75;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    /* ── BILL OVERLAY (mobile) ── */
+    .bill-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      z-index: 180
+    }
+
+    .bill-overlay.show {
+      display: block
+    }
+
+    /* ════════════ MOBILE ════════════ */
+    @media(max-width:640px) {
+      .bottom-nav {
+        display: flex
+      }
+
+      .topbar-right .nav-btn,
+      .topbar-right .logout-btn,
+      .user-tag {
+        display: none
+      }
+
+      .page.active {
+        padding-bottom: 58px
+      }
+
+      .pos-wrap {
+        display: block;
+        padding: 10px;
+        height: calc(100vh - 52px - 58px);
+        overflow-y: auto
+      }
+
+      .menu-panel {
+        height: calc(100vh - 52px - 58px - 20px)
+      }
+
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px
+      }
+
+      .mcard img {
+        height: 110px
+      }
+
+      .mcard-name {
+        font-size: 13px
+      }
+
+      .mcard-price {
+        font-size: 13px
+      }
+
+      .bill-panel {
+        position: fixed;
+        bottom: 58px;
+        left: 0;
+        right: 0;
+        height: 85vh;
+        border-radius: 16px 16px 0 0;
+        transform: translateY(100%);
+        transition: transform .3s ease;
+        z-index: 190;
+        border: none;
+        box-shadow: 0 -4px 30px rgba(0, 0, 0, .2)
+      }
+
+      .bill-panel.open {
+        transform: translateY(0)
+      }
+
+      .close-bill {
+        display: block
+      }
+
+      .fab {
+        display: flex
+      }
+
+      .tbtn {
+        padding: 8px 12px;
+        font-size: 13px
+      }
+
+      .qbtn {
+        width: 30px;
+        height: 30px
+      }
+    }
+
+    @media(max-width:380px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        padding: 8px
+      }
+
+      .mcard img {
+        height: 75px
+      }
+
+      .mcard-name {
+        font-size: 11px
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-left">
-    <span class="logo">🍽️ My Restaurant</span>
-  </div>
-  <div class="topbar-right">
-    <button class="nav-btn active" onclick="showPage('pos',this)">POS</button>
-    <button class="nav-btn" onclick="showPage('menu-admin',this)">Menu</button>
-    <button class="nav-btn" onclick="showPage('orders',this)">Orders</button>
-    <span class="user-tag" id="user-tag">👤 Admin</span>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-</header>
-
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <button class="bnav-btn active" onclick="showPage('pos',this);setBNav(this)"><span class="icon">🧾</span><span>POS</span></button>
-  <button class="bnav-btn" onclick="showPage('menu-admin',this);setBNav(this)"><span class="icon">🍽</span><span>Menu</span></button>
-  <button class="bnav-btn" onclick="showPage('orders',this);setBNav(this)"><span class="icon">📋</span><span>Orders</span></button>
-  <button class="bnav-btn" onclick="logout()"><span class="icon">🚪</span><span>Logout</span></button>
-</nav>
-
-<!-- PAGE: POS -->
-<div id="page-pos" class="page active">
-  <div class="pos-wrap">
-
-    <!-- MENU -->
-    <div class="menu-panel">
-      <div class="panel-head">
-        <h2>Menu</h2>
-        <input class="search" id="search" placeholder="Search food…" oninput="filterMenu()">
-      </div>
-      <div class="cat-bar" id="cat-bar"></div>
-      <div class="menu-grid" id="menu-grid"><p class="empty-msg">Loading…</p></div>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo">🍽️ My Restaurant</span>
     </div>
+    <div class="topbar-right">
+      <button class="nav-btn active" onclick="showPage('pos',this)">POS</button>
+      <button class="nav-btn" onclick="showPage('menu-admin',this)">Menu</button>
+      <button class="nav-btn" onclick="showPage('orders',this)">Orders</button>
+      <span class="user-tag" id="user-tag">👤 Admin</span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
 
-    <!-- BILL -->
-    <div class="bill-panel" id="bill-panel">
-      <button class="close-bill" onclick="closeBill()">✕ Close</button>
-      <div class="table-sec">
-        <h3>Select Table</h3>
-        <div class="table-grid" id="table-grid"><p style="font-size:12px;color:#aaa">Loading…</p></div>
-      </div>
-      <div class="order-sec">
-        <div class="order-head">
-          <h3>Order — <span id="tbl-label">No table</span></h3>
-          <button class="clear-btn" onclick="clearOrder()">Clear</button>
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="bnav-btn active" onclick="showPage('pos',this);setBNav(this)"><span
+        class="icon">🧾</span><span>POS</span></button>
+    <button class="bnav-btn" onclick="showPage('menu-admin',this);setBNav(this)"><span
+        class="icon">🍽</span><span>Menu</span></button>
+    <button class="bnav-btn" onclick="showPage('orders',this);setBNav(this)"><span
+        class="icon">📋</span><span>Orders</span></button>
+    <button class="bnav-btn" onclick="logout()"><span class="icon">🚪</span><span>Logout</span></button>
+  </nav>
+
+  <!-- PAGE: POS -->
+  <div id="page-pos" class="page active">
+    <div class="pos-wrap">
+
+      <!-- MENU -->
+      <div class="menu-panel">
+        <div class="panel-head">
+          <h2>Menu</h2>
+          <input class="search" id="search" placeholder="Search food…" oninput="filterMenu()">
         </div>
-        <div class="order-items" id="order-items"><p class="empty-msg">Select a table then add items</p></div>
+        <div class="cat-bar" id="cat-bar"></div>
+        <div class="menu-grid" id="menu-grid">
+          <p class="empty-msg">Loading…</p>
+        </div>
       </div>
-      <div class="bill-foot">
-        <div class="gst-row">
-          <label>GST</label>
-          <select id="gst" onchange="renderBill()">
-            <option value="0">0%</option>
-            <option value="5" selected>5%</option>
-            <option value="12">12%</option>
-            <option value="18">18%</option>
-          </select>
+
+      <!-- BILL -->
+      <div class="bill-panel" id="bill-panel">
+        <button class="close-bill" onclick="closeBill()">✕ Close</button>
+        <div class="table-sec">
+          <h3>Select Table</h3>
+          <div class="table-grid" id="table-grid">
+            <p style="font-size:12px;color:#aaa">Loading…</p>
+          </div>
         </div>
-        <div class="totals">
-          <div class="trow"><span>Subtotal</span><span id="sub">₹0.00</span></div>
-          <div class="trow"><span id="gst-lbl">GST (5%)</span><span id="gst-amt">₹0.00</span></div>
-          <div class="trow grand"><span>TOTAL</span><span id="total">₹0.00</span></div>
+        <div class="order-sec">
+          <div class="order-head">
+            <h3>Order — <span id="tbl-label">No table</span></h3>
+            <button class="clear-btn" onclick="clearOrder()">Clear</button>
+          </div>
+          <div class="order-items" id="order-items">
+            <p class="empty-msg">Select a table then add items</p>
+          </div>
         </div>
-        <div class="action-row">
-          <button class="btn-save" onclick="saveOrder()">💾 Save</button>
-          <button class="btn-print" onclick="printBill()">🖨 Print Bill</button>
+        <div class="bill-foot">
+          <div class="gst-row">
+            <label>GST</label>
+            <select id="gst" onchange="renderBill()">
+              <option value="0">0%</option>
+              <option value="5" selected>5%</option>
+              <option value="12">12%</option>
+              <option value="18">18%</option>
+            </select>
+          </div>
+          <div class="totals">
+            <div class="trow"><span>Subtotal</span><span id="sub">₹0.00</span></div>
+            <div class="trow"><span id="gst-lbl">GST (5%)</span><span id="gst-amt">₹0.00</span></div>
+            <div class="trow grand"><span>TOTAL</span><span id="total">₹0.00</span></div>
+          </div>
+          <div class="action-row">
+            <button class="btn-save" onclick="saveOrder()">💾 Save</button>
+            <button class="btn-print" onclick="printBill()">🖨 Print Bill</button>
+          </div>
+          <button class="btn-paid" onclick="markPaid()">✅ Mark Paid & Free Table</button>
         </div>
-        <button class="btn-paid" onclick="markPaid()">✅ Mark Paid & Free Table</button>
+      </div>
+    </div>
+
+    <!-- FAB -->
+    <button class="fab" id="fab" onclick="openBill()">
+      🧾 Bill <span class="fab-count" id="fab-count">0</span>
+    </button>
+  </div>
+
+  <!-- PAGE: MENU ADMIN -->
+  <div id="page-menu-admin" class="page">
+    <div class="admin-wrap">
+      <div class="admin-head">
+        <h2>Manage Menu</h2>
+        <button class="btn-add" onclick="openAdd()">+ Add Item</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="menu-tbody">
+            <tr>
+              <td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <!-- FAB -->
-  <button class="fab" id="fab" onclick="openBill()">
-    🧾 Bill <span class="fab-count" id="fab-count">0</span>
-  </button>
-</div>
-
-<!-- PAGE: MENU ADMIN -->
-<div id="page-menu-admin" class="page">
-  <div class="admin-wrap">
-    <div class="admin-head">
-      <h2>Manage Menu</h2>
-      <button class="btn-add" onclick="openAdd()">+ Add Item</button>
-    </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>#</th><th>Item</th><th>Category</th><th>Price</th><th>Type</th><th>Action</th></tr></thead>
-        <tbody id="menu-tbody"><tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- PAGE: ORDERS -->
-<div id="page-orders" class="page">
-  <div class="admin-wrap">
-    <div class="admin-head">
-      <h2>Today's Orders</h2>
-      <button class="btn-refresh" onclick="loadOrders()">↺ Refresh</button>
-    </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>Order#</th><th>Table</th><th>Status</th><th>GST</th><th>Time</th><th>Bill</th></tr></thead>
-        <tbody id="orders-tbody"><tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td></tr></tbody>
-      </table>
+  <!-- PAGE: ORDERS -->
+  <div id="page-orders" class="page">
+    <div class="admin-wrap">
+      <div class="admin-head">
+        <h2>Today's Orders</h2>
+        <button class="btn-refresh" onclick="loadOrders()">↺ Refresh</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Order#</th>
+              <th>Table</th>
+              <th>Status</th>
+              <th>GST</th>
+              <th>Time</th>
+              <th>Bill</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <tr>
+              <td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- MODAL -->
-<div class="overlay hidden" id="overlay" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <h3 id="modal-title">Add Item</h3>
-      <button style="background:none;border:none;font-size:18px;cursor:pointer;color:#888" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="eid">
-      <label>Item Name *</label>
-      <input type="text" id="ename" placeholder="e.g. Masala Dosa">
-      <label>Category *</label>
-      <select id="ecat">
-        <option>Starters</option><option>Mains</option>
-        <option>Rice & Breads</option><option>Beverages</option><option>Desserts</option>
-      </select>
-      <label>Price (₹) *</label>
-      <input type="number" id="eprice" placeholder="e.g. 120" min="1">
-      <label class="chk-label"><input type="checkbox" id="eveg" checked> Vegetarian item</label>
-    </div>
-    <div class="modal-foot">
-      <button class="mcancel" onclick="closeModal()">Cancel</button>
-      <button class="msave" onclick="saveItem()">Save Item</button>
+  <!-- MODAL -->
+  <div class="overlay hidden" id="overlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <h3 id="modal-title">Add Item</h3>
+        <button style="background:none;border:none;font-size:18px;cursor:pointer;color:#888"
+          onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="eid">
+        <label>Item Name *</label>
+        <input type="text" id="ename" placeholder="e.g. Masala Dosa">
+        <label>Category *</label>
+        <select id="ecat">
+          <option>Starters</option>
+          <option>Mains</option>
+          <option>Rice & Breads</option>
+          <option>Beverages</option>
+          <option>Desserts</option>
+        </select>
+        <label>Price (₹) *</label>
+        <input type="number" id="eprice" placeholder="e.g. 120" min="1">
+        <label class="chk-label"><input type="checkbox" id="eveg" checked> Vegetarian item</label>
+      </div>
+      <div class="modal-foot">
+        <button class="mcancel" onclick="closeModal()">Cancel</button>
+        <button class="msave" onclick="saveItem()">Save Item</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="bill-overlay" id="bill-overlay" onclick="closeBill()"></div>
+  <div class="bill-overlay" id="bill-overlay" onclick="closeBill()"></div>
 
-<script>
-// ── AUTH CHECK ──
-const posUser = sessionStorage.getItem('pos_user');
-const posRole = sessionStorage.getItem('pos_role');
-if (!posUser) { window.location.href = '/login.html'; throw new Error('not logged in'); }
-else { const t = document.getElementById('user-tag'); if(t) t.textContent = '👤 ' + posRole; }
+  <script>
+    // ── AUTH CHECK ──
+    const posUser = sessionStorage.getItem('pos_user');
+    const posRole = sessionStorage.getItem('pos_role');
+    if (!posUser) { window.location.href = '/login.html'; throw new Error('not logged in'); }
+    else { const t = document.getElementById('user-tag'); if (t) t.textContent = '👤 ' + posRole; }
 
-function logout() {
-  sessionStorage.clear();
-  window.location.href = '/login.html';
-}
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = '/login.html';
+    }
 
-// ── STATE ──
-let menuItems = [], tables = [], currentTableId = null, currentOrderId = null, cart = [], currentCat = 'All';
+    // ── STATE ──
+    let menuItems = [], tables = [], currentTableId = null, currentOrderId = null, cart = [], currentCat = 'All';
 
-// ── IMAGES ──
-const IMGS = {
-  'Veg Soup':'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=70',
-  'Paneer Tikka':'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=70',
-  'Chicken 65':'https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=300&q=70',
-  'Fish Fry':'https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=300&q=70',
-  'Gobi Manchurian':'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=70',
-  'Egg Fry':'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=70',
-  'Dal Tadka':'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=70',
-  'Paneer Butter Masala':'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=70',
-  'Chicken Curry':'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=300&q=70',
-  'Mutton Gravy':'https://images.unsplash.com/photo-1545247181-516773cae754?w=300&q=70',
-  'Egg Curry':'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=70',
-  'Mix Veg':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70',
-  'Steamed Rice':'https://images.unsplash.com/photo-1536304993881-ff86e0c9b9b8?w=300&q=70',
-  'Jeera Rice':'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=300&q=70',
-  'Chicken Biryani':'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=300&q=70',
-  'Veg Biryani':'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=70',
-  'Chapati':'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&q=70',
-  'Parotta':'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&q=70',
-  'Coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=70',
-  'Tea':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=70',
-  'Lassi':'https://images.unsplash.com/photo-1571006682260-be8e4ba3c4ef?w=300&q=70',
-  'Fresh Lime Soda':'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=300&q=70',
-  'Gulab Jamun':'https://images.unsplash.com/photo-1601303516534-bf4c4b72f15c?w=300&q=70',
-  'Ice Cream':'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=300&q=70',
-};
-const CAT_IMG = {
-  'Starters':'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=300&q=70',
-  'Mains':'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70',
-  'Rice & Breads':'https://images.unsplash.com/photo-1536304993881-ff86e0c9b9b8?w=300&q=70',
-  'Beverages':'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&q=70',
-  'Desserts':'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=70',
-};
-function getImg(name, cat) { return IMGS[name] || CAT_IMG[cat] || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70'; }
+    // ── IMAGES ──
+    const IMGS = {
+      'Veg Soup': 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=70',
+      'Paneer Tikka': 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=70',
+      'Chicken 65': 'https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=300&q=70',
+      'Fish Fry': 'https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=300&q=70',
+      'Gobi Manchurian': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=70',
+      'Egg Fry': 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=70',
+      'Dal Tadka': 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&q=70',
+      'Paneer Butter Masala': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=300&q=70',
+      'Chicken Curry': 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=300&q=70',
+      'Mutton Gravy': 'https://images.unsplash.com/photo-1545247181-516773cae754?w=300&q=70',
+      'Egg Curry': 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=70',
+      'Mix Veg': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70',
+      'Steamed Rice': 'https://images.unsplash.com/photo-1536304993881-ff86e0c9b9b8?w=300&q=70',
+      'Jeera Rice': 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=300&q=70',
+      'Chicken Biryani': 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=300&q=70',
+      'Veg Biryani': 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=70',
+      'Chapati': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&q=70',
+      'Parotta': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&q=70',
+      'Coffee': 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=70',
+      'Tea': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300&q=70',
+      'Lassi': 'https://images.unsplash.com/photo-1571006682260-be8e4ba3c4ef?w=300&q=70',
+      'Fresh Lime Soda': 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=300&q=70',
+      'Gulab Jamun': 'https://images.unsplash.com/photo-1601303516534-bf4c4b72f15c?w=300&q=70',
+      'Ice Cream': 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=300&q=70',
+    };
+    const CAT_IMG = {
+      'Starters': 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=300&q=70',
+      'Mains': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70',
+      'Rice & Breads': 'https://images.unsplash.com/photo-1536304993881-ff86e0c9b9b8?w=300&q=70',
+      'Beverages': 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&q=70',
+      'Desserts': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=70',
+    };
+    function getImg(name, cat) { return IMGS[name] || CAT_IMG[cat] || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70'; }
 
-// ── INIT ──
-window.onload = () => { loadMenu(); loadTables(); };
+    // ── INIT ──
+    window.onload = () => { loadMenu(); loadTables(); };
 
-// ── NAVIGATION ──
-function showPage(page, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  if (btn && btn.classList.contains('nav-btn')) btn.classList.add('active');
-  if (page === 'menu-admin') loadMenuAdmin();
-  if (page === 'orders') loadOrders();
-}
-function setBNav(btn) {
-  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+    // ── NAVIGATION ──
+    function showPage(page, btn) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      if (btn && btn.classList.contains('nav-btn')) btn.classList.add('active');
+      if (page === 'menu-admin') loadMenuAdmin();
+      if (page === 'orders') loadOrders();
+    }
+    function setBNav(btn) {
+      document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
 
-// ── MOBILE BILL ──
-function openBill() { document.getElementById('bill-panel').classList.add('open'); document.getElementById('bill-overlay').classList.add('show'); }
-function closeBill() { document.getElementById('bill-panel').classList.remove('open'); document.getElementById('bill-overlay').classList.remove('show'); }
-function updateFab() { document.getElementById('fab-count').textContent = cart.reduce((s,i)=>s+i.quantity,0); }
+    // ── MOBILE BILL ──
+    function openBill() { document.getElementById('bill-panel').classList.add('open'); document.getElementById('bill-overlay').classList.add('show'); }
+    function closeBill() { document.getElementById('bill-panel').classList.remove('open'); document.getElementById('bill-overlay').classList.remove('show'); }
+    function updateFab() { document.getElementById('fab-count').textContent = cart.reduce((s, i) => s + i.quantity, 0); }
 
-// ── MENU ──
-async function loadMenu() {
-  const res = await fetch('/api/menu');
-  menuItems = await res.json();
-  buildCats(); renderMenu();
-}
-function buildCats() {
-  const cats = ['All', ...new Set(menuItems.map(m => m.category))];
-  document.getElementById('cat-bar').innerHTML = cats.map(c =>
-    `<button class="cat-btn ${c===currentCat?'active':''}" onclick="selCat('${c}')">${c}</button>`
-  ).join('');
-}
-function selCat(c) { currentCat = c; buildCats(); renderMenu(); }
-function filterMenu() { renderMenu(); }
-function renderMenu() {
-  const q = document.getElementById('search').value.toLowerCase();
-  const list = menuItems.filter(m => (currentCat==='All'||m.category===currentCat) && m.name.toLowerCase().includes(q));
-  const grid = document.getElementById('menu-grid');
-  if (!list.length) { grid.innerHTML = '<p class="empty-msg">No items found</p>'; return; }
-  grid.innerHTML = list.map(m => `
+    // ── MENU ──
+    async function loadMenu() {
+      const res = await fetch('/api/menu');
+      menuItems = await res.json();
+      buildCats(); renderMenu();
+    }
+    function buildCats() {
+      const cats = ['All', ...new Set(menuItems.map(m => m.category))];
+      document.getElementById('cat-bar').innerHTML = cats.map(c =>
+        `<button class="cat-btn ${c === currentCat ? 'active' : ''}" onclick="selCat('${c}')">${c}</button>`
+      ).join('');
+    }
+    function selCat(c) { currentCat = c; buildCats(); renderMenu(); }
+    function filterMenu() { renderMenu(); }
+    function renderMenu() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const list = menuItems.filter(m => (currentCat === 'All' || m.category === currentCat) && m.name.toLowerCase().includes(q));
+      const grid = document.getElementById('menu-grid');
+      if (!list.length) { grid.innerHTML = '<p class="empty-msg">No items found</p>'; return; }
+      grid.innerHTML = list.map(m => `
     <div class="mcard" onclick="addToCart(${m.id})">
-      <img src="${getImg(m.name,m.category)}" alt="${m.name}" onerror="this.style.display='none'">
+      <img src="${getImg(m.name, m.category)}" alt="${m.name}" onerror="this.style.display='none'">
       <div class="mcard-body">
-        <div class="mcard-veg">${m.is_veg?'🟢 Veg':'🔴 Non-veg'}</div>
+        <div class="mcard-veg">${m.is_veg ? '🟢 Veg' : '🔴 Non-veg'}</div>
         <div class="mcard-name">${m.name}</div>
         <div class="mcard-price">₹${m.price}</div>
       </div>
     </div>`).join('');
-}
+    }
 
-// ── TABLES ──
-async function loadTables() {
-  const res = await fetch('/api/tables');
-  tables = await res.json();
-  renderTables();
-}
-function renderTables() {
-  document.getElementById('table-grid').innerHTML = tables.map(t =>
-    `<button class="tbtn ${t.status==='occupied'?'occupied':''} ${t.id===currentTableId?'active':''}"
+    // ── TABLES ──
+    async function loadTables() {
+      const res = await fetch('/api/tables');
+      tables = await res.json();
+      renderTables();
+    }
+    function renderTables() {
+      document.getElementById('table-grid').innerHTML = tables.map(t =>
+        `<button class="tbtn ${t.status === 'occupied' ? 'occupied' : ''} ${t.id === currentTableId ? 'active' : ''}"
       onclick="selTable(${t.id},${t.number})">T${t.number}</button>`
-  ).join('');
-}
-async function selTable(id, num) {
-  currentTableId = id;
-  document.getElementById('tbl-label').textContent = 'Table ' + num;
-  const res = await fetch(`/api/tables/${id}/order`);
-  const order = await res.json();
-  if (order) { currentOrderId = order.id; cart = order.items.map(i=>({menu_item_id:i.menu_item_id,name:i.name,price:i.price,quantity:i.quantity})); }
-  else { currentOrderId = null; cart = []; }
-  renderTables(); renderBill(); updateFab();
-}
+      ).join('');
+    }
+    async function selTable(id, num) {
+      currentTableId = id;
+      document.getElementById('tbl-label').textContent = 'Table ' + num;
+      const res = await fetch(`/api/tables/${id}/order`);
+      const order = await res.json();
+      if (order) { currentOrderId = order.id; cart = order.items.map(i => ({ menu_item_id: i.menu_item_id, name: i.name, price: i.price, quantity: i.quantity })); }
+      else { currentOrderId = null; cart = []; }
+      renderTables(); renderBill(); updateFab();
+    }
 
-// ── CART ──
-function addToCart(mid) {
-  if (!currentTableId) { openBill(); alert('Please select a table first!'); return; }
-  const m = menuItems.find(x => x.id === mid);
-  const ex = cart.find(c => c.menu_item_id === mid);
-  if (ex) ex.quantity++; else cart.push({menu_item_id:mid,name:m.name,price:m.price,quantity:1});
-  renderBill(); updateFab();
-}
-function chQty(mid, d) {
-  const i = cart.findIndex(c => c.menu_item_id === mid);
-  if (i < 0) return;
-  cart[i].quantity += d;
-  if (cart[i].quantity <= 0) cart.splice(i, 1);
-  renderBill(); updateFab();
-}
-function clearOrder() { if(!confirm('Clear all items?')) return; cart=[]; renderBill(); updateFab(); }
-function renderBill() {
-  const el = document.getElementById('order-items');
-  if (!cart.length) { el.innerHTML='<p class="empty-msg">No items yet</p>'; setTotals(0,0); return; }
-  el.innerHTML = cart.map(it => `
+    // ── CART ──
+    function addToCart(mid) {
+      if (!currentTableId) { openBill(); alert('Please select a table first!'); return; }
+      const m = menuItems.find(x => x.id === mid);
+      const ex = cart.find(c => c.menu_item_id === mid);
+      if (ex) ex.quantity++; else cart.push({ menu_item_id: mid, name: m.name, price: m.price, quantity: 1 });
+      renderBill(); updateFab();
+    }
+    function chQty(mid, d) {
+      const i = cart.findIndex(c => c.menu_item_id === mid);
+      if (i < 0) return;
+      cart[i].quantity += d;
+      if (cart[i].quantity <= 0) cart.splice(i, 1);
+      renderBill(); updateFab();
+    }
+    function clearOrder() { if (!confirm('Clear all items?')) return; cart = []; renderBill(); updateFab(); }
+    function renderBill() {
+      const el = document.getElementById('order-items');
+      if (!cart.length) { el.innerHTML = '<p class="empty-msg">No items yet</p>'; setTotals(0, 0); return; }
+      el.innerHTML = cart.map(it => `
     <div class="orow">
       <span class="oname">${it.name}</span>
       <div class="qty-ctrl">
@@ -452,38 +1243,38 @@ function renderBill() {
         <span class="qnum">${it.quantity}</span>
         <button class="qbtn" onclick="chQty(${it.menu_item_id},1)">+</button>
       </div>
-      <span class="oprice">₹${(it.price*it.quantity).toFixed(2)}</span>
+      <span class="oprice">₹${(it.price * it.quantity).toFixed(2)}</span>
     </div>`).join('');
-  const sub = cart.reduce((s,i)=>s+i.price*i.quantity,0);
-  setTotals(sub, sub * parseFloat(document.getElementById('gst').value) / 100);
-}
-function setTotals(sub, gst) {
-  const r = document.getElementById('gst').value;
-  document.getElementById('sub').textContent = '₹'+sub.toFixed(2);
-  document.getElementById('gst-lbl').textContent = 'GST ('+r+'%)';
-  document.getElementById('gst-amt').textContent = '₹'+gst.toFixed(2);
-  document.getElementById('total').textContent = '₹'+(sub+gst).toFixed(2);
-}
+      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      setTotals(sub, sub * parseFloat(document.getElementById('gst').value) / 100);
+    }
+    function setTotals(sub, gst) {
+      const r = document.getElementById('gst').value;
+      document.getElementById('sub').textContent = '₹' + sub.toFixed(2);
+      document.getElementById('gst-lbl').textContent = 'GST (' + r + '%)';
+      document.getElementById('gst-amt').textContent = '₹' + gst.toFixed(2);
+      document.getElementById('total').textContent = '₹' + (sub + gst).toFixed(2);
+    }
 
-// ── SAVE ──
-async function saveOrder() {
-  if (!currentTableId) { alert('Select a table first!'); return; }
-  if (!cart.length) { alert('Add items first!'); return; }
-  const res = await fetch('/api/orders', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({table_id:currentTableId,items:cart,gst_rate:parseFloat(document.getElementById('gst').value)})});
-  const o = await res.json(); currentOrderId = o.id;
-  await loadTables(); renderTables(); alert('✅ Order saved!');
-}
+    // ── SAVE ──
+    async function saveOrder() {
+      if (!currentTableId) { alert('Select a table first!'); return; }
+      if (!cart.length) { alert('Add items first!'); return; }
+      const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ table_id: currentTableId, items: cart, gst_rate: parseFloat(document.getElementById('gst').value) }) });
+      const o = await res.json(); currentOrderId = o.id;
+      await loadTables(); renderTables(); alert('✅ Order saved!');
+    }
 
-// ── PRINT ──
-function printBill() {
-  if (!cart.length) { alert('No items!'); return; }
-  const t = tables.find(x=>x.id===currentTableId);
-  const r = parseFloat(document.getElementById('gst').value);
-  const sub = cart.reduce((s,i)=>s+i.price*i.quantity,0);
-  const gst = sub*r/100;
-  const now = new Date();
-  const win = window.open('','_blank','width=400,height=620');
-  win.document.write(`<!DOCTYPE html><html><head><title>Bill</title>
+    // ── PRINT ──
+    function printBill() {
+      if (!cart.length) { alert('No items!'); return; }
+      const t = tables.find(x => x.id === currentTableId);
+      const r = parseFloat(document.getElementById('gst').value);
+      const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const gst = sub * r / 100;
+      const now = new Date();
+      const win = window.open('', '_blank', 'width=400,height=620');
+      win.document.write(`<!DOCTYPE html><html><head><title>Bill</title>
   <style>body{font-family:'Courier New',monospace;padding:20px;max-width:320px;margin:auto}
   h1{text-align:center;font-size:16px}p{text-align:center;font-size:12px;color:#666;margin:4px 0}
   table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
@@ -493,107 +1284,107 @@ function printBill() {
   .grand{font-size:15px;font-weight:bold}.footer{text-align:center;margin-top:16px;font-size:11px;color:#888}
   @media print{button{display:none}}</style></head><body>
   <h1>🍽️ My Restaurant</h1>
-  <p>Table: ${t?t.number:'?'} | Order: ${currentOrderId||'New'}</p>
-  <p>${now.toLocaleDateString('en-IN')} ${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</p>
+  <p>Table: ${t ? t.number : '?'} | Order: ${currentOrderId || 'New'}</p>
+  <p>${now.toLocaleDateString('en-IN')} ${now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</p>
   <table><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">Amt</th></tr></thead>
-  <tbody>${cart.map(i=>`<tr><td>${i.name}</td><td style="text-align:center">${i.quantity}</td><td style="text-align:right">₹${i.price.toFixed(2)}</td><td style="text-align:right">₹${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('')}</tbody></table>
+  <tbody>${cart.map(i => `<tr><td>${i.name}</td><td style="text-align:center">${i.quantity}</td><td style="text-align:right">₹${i.price.toFixed(2)}</td><td style="text-align:right">₹${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('')}</tbody></table>
   <div class="div"></div>
   <div class="row"><span>Subtotal</span><span>₹${sub.toFixed(2)}</span></div>
   <div class="row"><span>GST (${r}%)</span><span>₹${gst.toFixed(2)}</span></div>
   <div class="div"></div>
-  <div class="row grand"><span>TOTAL</span><span>₹${(sub+gst).toFixed(2)}</span></div>
+  <div class="row grand"><span>TOTAL</span><span>₹${(sub + gst).toFixed(2)}</span></div>
   <div class="footer">Thank you! Please visit again 🙏</div>
   <br><button onclick="window.print()" style="width:100%;padding:10px;cursor:pointer;font-size:14px">🖨 Print</button>
   </body></html>`);
-  win.document.close();
-}
+      win.document.close();
+    }
 
-// ── MARK PAID ──
-async function markPaid() {
-  if (!currentOrderId) { alert('Save the order first!'); return; }
-  if (!confirm('Mark as paid and free the table?')) return;
-  await fetch(`/api/orders/${currentOrderId}/pay`,{method:'PATCH'});
-  cart=[]; currentOrderId=null;
-  await loadTables(); renderTables(); renderBill(); updateFab(); closeBill();
-  alert('✅ Table is now free!');
-}
+    // ── MARK PAID ──
+    async function markPaid() {
+      if (!currentOrderId) { alert('Save the order first!'); return; }
+      if (!confirm('Mark as paid and free the table?')) return;
+      await fetch(`/api/orders/${currentOrderId}/pay`, { method: 'PATCH' });
+      cart = []; currentOrderId = null;
+      await loadTables(); renderTables(); renderBill(); updateFab(); closeBill();
+      alert('✅ Table is now free!');
+    }
 
-// ── MENU ADMIN ──
-async function loadMenuAdmin() {
-  const res = await fetch('/api/menu');
-  const items = await res.json();
-  const tbody = document.getElementById('menu-tbody');
-  if (!items.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No items</td></tr>'; return; }
-  tbody.innerHTML = items.map((m,i)=>`
+    // ── MENU ADMIN ──
+    async function loadMenuAdmin() {
+      const res = await fetch('/api/menu');
+      const items = await res.json();
+      const tbody = document.getElementById('menu-tbody');
+      if (!items.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No items</td></tr>'; return; }
+      tbody.innerHTML = items.map((m, i) => `
     <tr>
-      <td>${i+1}</td>
+      <td>${i + 1}</td>
       <td><div style="display:flex;align-items:center;gap:8px">
-        <img src="${getImg(m.name,m.category)}" style="width:38px;height:38px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'">
+        <img src="${getImg(m.name, m.category)}" style="width:38px;height:38px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'">
         ${m.name}</div></td>
       <td>${m.category}</td>
       <td>₹${m.price}</td>
-      <td><span class="badge ${m.is_veg?'bveg':'bnveg'}">${m.is_veg?'Veg':'Non-veg'}</span></td>
+      <td><span class="badge ${m.is_veg ? 'bveg' : 'bnveg'}">${m.is_veg ? 'Veg' : 'Non-veg'}</span></td>
       <td><button class="lbtn" onclick="openEdit(${m.id})">Edit</button>
           <button class="lbtn del" onclick="delItem(${m.id})">Remove</button></td>
     </tr>`).join('');
-}
-function openAdd() {
-  document.getElementById('modal-title').textContent='Add Item';
-  document.getElementById('eid').value='';
-  document.getElementById('ename').value='';
-  document.getElementById('eprice').value='';
-  document.getElementById('eveg').checked=true;
-  document.getElementById('overlay').classList.remove('hidden');
-}
-async function openEdit(id) {
-  const items = await (await fetch('/api/menu')).json();
-  const m = items.find(x=>x.id===id); if(!m) return;
-  document.getElementById('modal-title').textContent='Edit Item';
-  document.getElementById('eid').value=m.id;
-  document.getElementById('ename').value=m.name;
-  document.getElementById('ecat').value=m.category;
-  document.getElementById('eprice').value=m.price;
-  document.getElementById('eveg').checked=m.is_veg===1;
-  document.getElementById('overlay').classList.remove('hidden');
-}
-function closeModal() { document.getElementById('overlay').classList.add('hidden'); }
-async function saveItem() {
-  const id=document.getElementById('eid').value;
-  const name=document.getElementById('ename').value.trim();
-  const category=document.getElementById('ecat').value;
-  const price=document.getElementById('eprice').value;
-  const is_veg=document.getElementById('eveg').checked;
-  if(!name||!price){alert('Name and price required!');return;}
-  const body={name,category,price,is_veg,available:1};
-  if(id) await fetch(`/api/menu/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  else   await fetch('/api/menu',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  closeModal(); loadMenu(); loadMenuAdmin();
-}
-async function delItem(id) {
-  if(!confirm('Remove this item?')) return;
-  await fetch(`/api/menu/${id}`,{method:'DELETE'});
-  loadMenu(); loadMenuAdmin();
-}
+    }
+    function openAdd() {
+      document.getElementById('modal-title').textContent = 'Add Item';
+      document.getElementById('eid').value = '';
+      document.getElementById('ename').value = '';
+      document.getElementById('eprice').value = '';
+      document.getElementById('eveg').checked = true;
+      document.getElementById('overlay').classList.remove('hidden');
+    }
+    async function openEdit(id) {
+      const items = await (await fetch('/api/menu')).json();
+      const m = items.find(x => x.id === id); if (!m) return;
+      document.getElementById('modal-title').textContent = 'Edit Item';
+      document.getElementById('eid').value = m.id;
+      document.getElementById('ename').value = m.name;
+      document.getElementById('ecat').value = m.category;
+      document.getElementById('eprice').value = m.price;
+      document.getElementById('eveg').checked = m.is_veg === 1;
+      document.getElementById('overlay').classList.remove('hidden');
+    }
+    function closeModal() { document.getElementById('overlay').classList.add('hidden'); }
+    async function saveItem() {
+      const id = document.getElementById('eid').value;
+      const name = document.getElementById('ename').value.trim();
+      const category = document.getElementById('ecat').value;
+      const price = document.getElementById('eprice').value;
+      const is_veg = document.getElementById('eveg').checked;
+      if (!name || !price) { alert('Name and price required!'); return; }
+      const body = { name, category, price, is_veg, available: 1 };
+      if (id) await fetch(`/api/menu/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      else await fetch('/api/menu', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      closeModal(); loadMenu(); loadMenuAdmin();
+    }
+    async function delItem(id) {
+      if (!confirm('Remove this item?')) return;
+      await fetch(`/api/menu/${id}`, { method: 'DELETE' });
+      loadMenu(); loadMenuAdmin();
+    }
 
-// ── ORDERS ──
-async function loadOrders() {
-  const orders = await (await fetch('/api/orders')).json();
-  const tbody = document.getElementById('orders-tbody');
-  if(!orders.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No orders today</td></tr>';return;}
-  tbody.innerHTML = orders.map(o=>`
+    // ── ORDERS ──
+    async function loadOrders() {
+      const orders = await (await fetch('/api/orders')).json();
+      const tbody = document.getElementById('orders-tbody');
+      if (!orders.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No orders today</td></tr>'; return; }
+      tbody.innerHTML = orders.map(o => `
     <tr>
       <td>#${o.id}</td>
       <td>Table ${o.table_number}</td>
-      <td><span class="badge ${o.status==='paid'?'bpaid':'bopen'}">${o.status}</span></td>
+      <td><span class="badge ${o.status === 'paid' ? 'bpaid' : 'bopen'}">${o.status}</span></td>
       <td>${o.gst_rate}%</td>
       <td>${o.created_at}</td>
       <td><button class="lbtn" onclick="viewBill(${o.id})">View Bill</button></td>
     </tr>`).join('');
-}
-async function viewBill(id) {
-  const o = await (await fetch(`/api/orders/${id}/bill`)).json();
-  const win = window.open('','_blank','width=400,height=580');
-  win.document.write(`<!DOCTYPE html><html><head><title>Order #${o.id}</title>
+    }
+    async function viewBill(id) {
+      const o = await (await fetch(`/api/orders/${id}/bill`)).json();
+      const win = window.open('', '_blank', 'width=400,height=580');
+      win.document.write(`<!DOCTYPE html><html><head><title>Order #${o.id}</title>
   <style>body{font-family:'Courier New',monospace;padding:20px;max-width:320px;margin:auto}
   h1{text-align:center;font-size:16px}p{text-align:center;font-size:12px;color:#666;margin:3px 0}
   table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
@@ -606,7 +1397,7 @@ async function viewBill(id) {
   <p>Table ${o.table_number} | Order #${o.id} | ${o.status}</p>
   <p>${o.created_at}</p>
   <table><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">Amt</th></tr></thead>
-  <tbody>${o.items.map(i=>`<tr><td>${i.name}</td><td style="text-align:center">${i.quantity}</td><td style="text-align:right">₹${i.price.toFixed(2)}</td><td style="text-align:right">₹${(i.price*i.quantity).toFixed(2)}</td></tr>`).join('')}</tbody></table>
+  <tbody>${o.items.map(i => `<tr><td>${i.name}</td><td style="text-align:center">${i.quantity}</td><td style="text-align:right">₹${i.price.toFixed(2)}</td><td style="text-align:right">₹${(i.price * i.quantity).toFixed(2)}</td></tr>`).join('')}</tbody></table>
   <div class="div"></div>
   <div class="row"><span>Subtotal</span><span>₹${o.subtotal.toFixed(2)}</span></div>
   <div class="row"><span>GST (${o.gst_rate}%)</span><span>₹${o.gst.toFixed(2)}</span></div>
@@ -615,8 +1406,9 @@ async function viewBill(id) {
   <div class="footer">Thank you! Please visit again 🙏</div>
   <br><button onclick="window.print()" style="width:100%;padding:10px;cursor:pointer">🖨 Print</button>
   </body></html>`);
-  win.document.close();
-}
-</script>
+      win.document.close();
+    }
+  </script>
 </body>
+
 </html>
