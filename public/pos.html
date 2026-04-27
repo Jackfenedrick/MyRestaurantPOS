@@ -21,7 +21,6 @@
       overflow-x: hidden
     }
 
-    /* ── TOP BAR ── */
     .topbar {
       display: flex;
       align-items: center;
@@ -35,23 +34,9 @@
       z-index: 100
     }
 
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .logo {
-      font-size: 17px;
-      font-weight: 700;
-      color: #111
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
+    .topbar-left { display: flex; align-items: center; gap: 10px }
+    .logo { font-size: 17px; font-weight: 700; color: #111 }
+    .topbar-right { display: flex; align-items: center; gap: 8px }
 
     .nav-btn {
       padding: 6px 14px;
@@ -63,11 +48,7 @@
       color: #666
     }
 
-    .nav-btn.active {
-      background: #1D9E75;
-      color: #fff;
-      border-color: #1D9E75
-    }
+    .nav-btn.active { background: #1D9E75; color: #fff; border-color: #1D9E75 }
 
     .user-tag {
       font-size: 12px;
@@ -88,7 +69,6 @@
       color: #e74c3c
     }
 
-    /* ── BOTTOM NAV (mobile) ── */
     .bottom-nav {
       display: none;
       position: fixed;
@@ -117,25 +97,12 @@
       padding: 6px 0
     }
 
-    .bnav-btn .icon {
-      font-size: 22px;
-      line-height: 1
-    }
+    .bnav-btn .icon { font-size: 22px; line-height: 1 }
+    .bnav-btn.active { color: #1D9E75 }
 
-    .bnav-btn.active {
-      color: #1D9E75
-    }
+    .page { display: none }
+    .page.active { display: block }
 
-    /* ── PAGES ── */
-    .page {
-      display: none
-    }
-
-    .page.active {
-      display: block
-    }
-
-    /* ── POS LAYOUT ── */
     .pos-wrap {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -144,7 +111,6 @@
       height: calc(100vh - 52px)
     }
 
-    /* ── MENU PANEL ── */
     .menu-panel {
       background: #fff;
       border-radius: 12px;
@@ -163,11 +129,7 @@
       flex-shrink: 0
     }
 
-    .panel-head h2 {
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap
-    }
+    .panel-head h2 { font-size: 15px; font-weight: 700; white-space: nowrap }
 
     .search {
       flex: 1;
@@ -180,9 +142,7 @@
       min-width: 0
     }
 
-    .search:focus {
-      border-color: #1D9E75
-    }
+    .search:focus { border-color: #1D9E75 }
 
     .cat-bar {
       display: flex;
@@ -194,9 +154,7 @@
       scrollbar-width: none
     }
 
-    .cat-bar::-webkit-scrollbar {
-      display: none
-    }
+    .cat-bar::-webkit-scrollbar { display: none }
 
     .cat-btn {
       padding: 5px 14px;
@@ -209,11 +167,7 @@
       color: #666
     }
 
-    .cat-btn.active {
-      background: #1D9E75;
-      color: #fff;
-      border-color: #1D9E75
-    }
+    .cat-btn.active { background: #1D9E75; color: #fff; border-color: #1D9E75 }
 
     .menu-grid {
       display: grid;
@@ -232,34 +186,15 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: border-color .15s, transform .1s;
-      height: fit-content
+      transition: border-color .15s, transform .1s
     }
 
-    .mcard:hover {
-      border-color: #1D9E75;
-      transform: translateY(-2px)
-    }
+    .mcard:hover { border-color: #1D9E75; transform: translateY(-2px) }
+    .mcard:active { transform: scale(0.97) }
 
-    .mcard:active {
-      transform: scale(0.97)
-    }
-
-    ..mcard-name {
-      font-size: 12px;
-      font-weight: 700;
-      color: #111;
-      line-height: 1.3;
-      margin-bottom: 4px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden
-    }
-
-      {
+    .mcard img {
       width: 100%;
-      height: 100px;
+      height: 110px;
       object-fit: cover;
       display: block;
       background: #eee;
@@ -269,7 +204,7 @@
     .mcard-body {
       padding: 8px 10px 10px;
       background: #fff;
-      min-height: 70px
+      min-height: 65px
     }
 
     .mcard-veg {
@@ -298,7 +233,6 @@
       display: block
     }
 
-    /* ── BILL PANEL ── */
     .bill-panel {
       background: #fff;
       border-radius: 12px;
@@ -325,17 +259,8 @@
       flex-shrink: 0
     }
 
-    .table-sec h3 {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px
-    }
-
-    .table-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px
-    }
+    .table-sec h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px }
+    .table-grid { display: flex; flex-wrap: wrap; gap: 6px }
 
     .tbtn {
       padding: 6px 10px;
@@ -349,17 +274,8 @@
       transition: all .15s
     }
 
-    .tbtn.occupied {
-      border-color: #f39c12;
-      color: #f39c12;
-      background: #fffbf0
-    }
-
-    .tbtn.active {
-      background: #1D9E75;
-      color: #fff;
-      border-color: #1D9E75
-    }
+    .tbtn.occupied { border-color: #f39c12; color: #f39c12; background: #fffbf0 }
+    .tbtn.active { background: #1D9E75; color: #fff; border-color: #1D9E75 }
 
     .order-sec {
       flex: 1;
@@ -378,10 +294,7 @@
       flex-shrink: 0
     }
 
-    .order-head h3 {
-      font-size: 13px;
-      font-weight: 700
-    }
+    .order-head h3 { font-size: 13px; font-weight: 700 }
 
     .clear-btn {
       background: none;
@@ -393,10 +306,7 @@
       color: #888
     }
 
-    .order-items {
-      flex: 1;
-      overflow-y: auto
-    }
+    .order-items { flex: 1; overflow-y: auto }
 
     .orow {
       display: flex;
@@ -406,17 +316,8 @@
       border-bottom: 1px solid #f0f0e8
     }
 
-    .oname {
-      flex: 1;
-      font-size: 12px;
-      font-weight: 500
-    }
-
-    .qty-ctrl {
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
+    .oname { flex: 1; font-size: 12px; font-weight: 500 }
+    .qty-ctrl { display: flex; align-items: center; gap: 4px }
 
     .qbtn {
       width: 26px;
@@ -433,12 +334,7 @@
       font-weight: 700
     }
 
-    .qnum {
-      font-size: 13px;
-      min-width: 20px;
-      text-align: center;
-      font-weight: 700
-    }
+    .qnum { font-size: 13px; min-width: 20px; text-align: center; font-weight: 700 }
 
     .oprice {
       font-size: 12px;
@@ -448,32 +344,16 @@
       font-family: monospace
     }
 
-    .empty-msg {
-      color: #aaa;
-      font-size: 13px;
-      text-align: center;
-      padding: 30px 0
-    }
+    .empty-msg { color: #aaa; font-size: 13px; text-align: center; padding: 30px 0 }
 
-    /* ── BILL FOOTER ── */
     .bill-foot {
       padding: 10px 14px 14px;
       border-top: 1px solid #e0e0d8;
       flex-shrink: 0
     }
 
-    .gst-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px
-    }
-
-    .gst-row label {
-      font-size: 12px;
-      color: #888;
-      font-weight: 600
-    }
+    .gst-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px }
+    .gst-row label { font-size: 12px; color: #888; font-weight: 600 }
 
     .gst-row select {
       padding: 5px 8px;
@@ -483,9 +363,7 @@
       background: #f5f5f0
     }
 
-    .totals {
-      margin-bottom: 10px
-    }
+    .totals { margin-bottom: 10px }
 
     .trow {
       display: flex;
@@ -505,11 +383,7 @@
       margin-top: 4px
     }
 
-    .action-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px
-    }
+    .action-row { display: flex; gap: 8px; margin-bottom: 8px }
 
     .btn-save {
       flex: 1;
@@ -547,13 +421,8 @@
       cursor: pointer
     }
 
-    .btn-save:active,
-    .btn-print:active,
-    .btn-paid:active {
-      opacity: .8
-    }
+    .btn-save:active, .btn-print:active, .btn-paid:active { opacity: .8 }
 
-    /* ── FAB (mobile bill button) ── */
     .fab {
       display: none;
       position: fixed;
@@ -586,12 +455,7 @@
       font-weight: 800
     }
 
-    /* ── ADMIN PAGES ── */
-    .admin-wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 16px
-    }
+    .admin-wrap { max-width: 860px; margin: 0 auto; padding: 16px }
 
     .admin-head {
       display: flex;
@@ -600,30 +464,13 @@
       margin-bottom: 16px
     }
 
-    .admin-head h2 {
-      font-size: 18px;
-      font-weight: 700
-    }
+    .admin-head h2 { font-size: 18px; font-weight: 700 }
+    .tbl-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #e0e0d8 }
 
-    .tbl-wrap {
-      overflow-x: auto;
-      border-radius: 12px;
-      border: 1px solid #e0e0d8
-    }
+    table { width: 100%; border-collapse: collapse; background: #fff; min-width: 480px }
+    thead { background: #f5f5f0 }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      min-width: 480px
-    }
-
-    thead {
-      background: #f5f5f0
-    }
-
-    th,
-    td {
+    th, td {
       padding: 11px 14px;
       text-align: left;
       border-bottom: 1px solid #e8e8e0;
@@ -638,13 +485,8 @@
       letter-spacing: .05em
     }
 
-    tbody tr:hover {
-      background: #fafaf7
-    }
-
-    tbody tr:last-child td {
-      border: none
-    }
+    tbody tr:hover { background: #fafaf7 }
+    tbody tr:last-child td { border: none }
 
     .badge {
       display: inline-block;
@@ -654,38 +496,13 @@
       font-weight: 600
     }
 
-    .bveg {
-      background: #e1f5ee;
-      color: #0F6E56
-    }
+    .bveg { background: #e1f5ee; color: #0F6E56 }
+    .bnveg { background: #fff0f0; color: #c0392b }
+    .bopen { background: #fff8e0; color: #856a00 }
+    .bpaid { background: #e1f5ee; color: #0F6E56 }
 
-    .bnveg {
-      background: #fff0f0;
-      color: #c0392b
-    }
-
-    .bopen {
-      background: #fff8e0;
-      color: #856a00
-    }
-
-    .bpaid {
-      background: #e1f5ee;
-      color: #0F6E56
-    }
-
-    .lbtn {
-      background: none;
-      border: none;
-      font-size: 13px;
-      cursor: pointer;
-      color: #1D9E75;
-      padding: 2px 4px
-    }
-
-    .lbtn.del {
-      color: #e74c3c
-    }
+    .lbtn { background: none; border: none; font-size: 13px; cursor: pointer; color: #1D9E75; padding: 2px 4px }
+    .lbtn.del { color: #e74c3c }
 
     .btn-add {
       padding: 9px 18px;
@@ -707,7 +524,6 @@
       cursor: pointer
     }
 
-    /* ── MODAL ── */
     .overlay {
       position: fixed;
       inset: 0;
@@ -718,9 +534,7 @@
       z-index: 300
     }
 
-    .overlay.hidden {
-      display: none
-    }
+    .overlay.hidden { display: none }
 
     .modal {
       background: #fff;
@@ -738,10 +552,7 @@
       border-bottom: 1px solid #eee
     }
 
-    .modal-head h3 {
-      font-size: 15px;
-      font-weight: 700
-    }
+    .modal-head h3 { font-size: 15px; font-weight: 700 }
 
     .modal-body {
       padding: 16px 20px;
@@ -750,15 +561,9 @@
       gap: 8px
     }
 
-    .modal-body label {
-      font-size: 12px;
-      color: #888;
-      font-weight: 600;
-      margin-top: 4px
-    }
+    .modal-body label { font-size: 12px; color: #888; font-weight: 600; margin-top: 4px }
 
-    .modal-body input,
-    .modal-body select {
+    .modal-body input, .modal-body select {
       padding: 10px 12px;
       border-radius: 8px;
       border: 1.5px solid #ddd;
@@ -768,19 +573,9 @@
       outline: none
     }
 
-    .modal-body input:focus,
-    .modal-body select:focus {
-      border-color: #1D9E75
-    }
+    .modal-body input:focus, .modal-body select:focus { border-color: #1D9E75 }
 
-    .chk-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      cursor: pointer;
-      color: #333
-    }
+    .chk-label { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: #333 }
 
     .modal-foot {
       display: flex;
@@ -811,7 +606,6 @@
       cursor: pointer
     }
 
-    /* ── BILL OVERLAY (mobile) ── */
     .bill-overlay {
       display: none;
       position: fixed;
@@ -820,25 +614,17 @@
       z-index: 180
     }
 
-    .bill-overlay.show {
-      display: block
-    }
+    .bill-overlay.show { display: block }
 
     /* ════════════ MOBILE ════════════ */
     @media(max-width:640px) {
-      .bottom-nav {
-        display: flex
-      }
+      .bottom-nav { display: flex }
 
       .topbar-right .nav-btn,
       .topbar-right .logout-btn,
-      .user-tag {
-        display: none
-      }
+      .user-tag { display: none }
 
-      .page.active {
-        padding-bottom: 58px
-      }
+      .page.active { padding-bottom: 58px }
 
       .pos-wrap {
         display: block;
@@ -847,9 +633,7 @@
         overflow-y: auto
       }
 
-      .menu-panel {
-        height: calc(100vh - 52px - 58px - 20px)
-      }
+      .menu-panel { height: calc(100vh - 52px - 58px - 20px) }
 
       .menu-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -857,9 +641,9 @@
         padding: 10px
       }
 
-      .mcard img {
-        height: 90px
-      }
+      .mcard img { height: 90px }
+
+      .mcard-body { min-height: 65px; padding: 6px 8px 8px }
 
       .mcard-name {
         font-size: 12px;
@@ -868,47 +652,28 @@
         -webkit-box-orient: vertical;
         overflow: hidden
       }
-    }
 
-    .mcard-price {
-      font-size: 13px
-    }
+      .mcard-price { font-size: 13px }
 
-    .bill-panel {
-      position: fixed;
-      bottom: 58px;
-      left: 0;
-      right: 0;
-      height: 85vh;
-      border-radius: 16px 16px 0 0;
-      transform: translateY(100%);
-      transition: transform .3s ease;
-      z-index: 190;
-      border: none;
-      box-shadow: 0 -4px 30px rgba(0, 0, 0, .2)
-    }
+      .bill-panel {
+        position: fixed;
+        bottom: 58px;
+        left: 0;
+        right: 0;
+        height: 85vh;
+        border-radius: 16px 16px 0 0;
+        transform: translateY(100%);
+        transition: transform .3s ease;
+        z-index: 190;
+        border: none;
+        box-shadow: 0 -4px 30px rgba(0, 0, 0, .2)
+      }
 
-    .bill-panel.open {
-      transform: translateY(0)
-    }
-
-    .close-bill {
-      display: block
-    }
-
-    .fab {
-      display: flex
-    }
-
-    .tbtn {
-      padding: 8px 12px;
-      font-size: 13px
-    }
-
-    .qbtn {
-      width: 30px;
-      height: 30px
-    }
+      .bill-panel.open { transform: translateY(0) }
+      .close-bill { display: block }
+      .fab { display: flex }
+      .tbtn { padding: 8px 12px; font-size: 13px }
+      .qbtn { width: 30px; height: 30px }
     }
 
     @media(max-width:380px) {
@@ -918,13 +683,9 @@
         padding: 8px
       }
 
-      .mcard img {
-        height: 75px
-      }
-
-      .mcard-name {
-        font-size: 11px
-      }
+      .mcard img { height: 70px }
+      .mcard-name { font-size: 11px }
+      .mcard-body { min-height: 58px }
     }
   </style>
 </head>
@@ -947,12 +708,9 @@
 
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
-    <button class="bnav-btn active" onclick="showPage('pos',this);setBNav(this)"><span
-        class="icon">🧾</span><span>POS</span></button>
-    <button class="bnav-btn" onclick="showPage('menu-admin',this);setBNav(this)"><span
-        class="icon">🍽</span><span>Menu</span></button>
-    <button class="bnav-btn" onclick="showPage('orders',this);setBNav(this)"><span
-        class="icon">📋</span><span>Orders</span></button>
+    <button class="bnav-btn active" onclick="showPage('pos',this);setBNav(this)"><span class="icon">🧾</span><span>POS</span></button>
+    <button class="bnav-btn" onclick="showPage('menu-admin',this);setBNav(this)"><span class="icon">🍽</span><span>Menu</span></button>
+    <button class="bnav-btn" onclick="showPage('orders',this);setBNav(this)"><span class="icon">📋</span><span>Orders</span></button>
     <button class="bnav-btn" onclick="logout()"><span class="icon">🚪</span><span>Logout</span></button>
   </nav>
 
@@ -1030,19 +788,10 @@
       <div class="tbl-wrap">
         <table>
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Item</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
+            <tr><th>#</th><th>Item</th><th>Category</th><th>Price</th><th>Type</th><th>Action</th></tr>
           </thead>
           <tbody id="menu-tbody">
-            <tr>
-              <td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td>
-            </tr>
+            <tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td></tr>
           </tbody>
         </table>
       </div>
@@ -1059,19 +808,10 @@
       <div class="tbl-wrap">
         <table>
           <thead>
-            <tr>
-              <th>Order#</th>
-              <th>Table</th>
-              <th>Status</th>
-              <th>GST</th>
-              <th>Time</th>
-              <th>Bill</th>
-            </tr>
+            <tr><th>Order#</th><th>Table</th><th>Status</th><th>GST</th><th>Time</th><th>Bill</th></tr>
           </thead>
           <tbody id="orders-tbody">
-            <tr>
-              <td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td>
-            </tr>
+            <tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">Loading…</td></tr>
           </tbody>
         </table>
       </div>
@@ -1083,8 +823,7 @@
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-head">
         <h3 id="modal-title">Add Item</h3>
-        <button style="background:none;border:none;font-size:18px;cursor:pointer;color:#888"
-          onclick="closeModal()">✕</button>
+        <button style="background:none;border:none;font-size:18px;cursor:pointer;color:#888" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
         <input type="hidden" id="eid">
@@ -1112,7 +851,6 @@
   <div class="bill-overlay" id="bill-overlay" onclick="closeBill()"></div>
 
   <script>
-    // ── AUTH CHECK ──
     const posUser = sessionStorage.getItem('pos_user');
     const posRole = sessionStorage.getItem('pos_role');
     if (!posUser) { window.location.href = '/login.html'; throw new Error('not logged in'); }
@@ -1123,10 +861,8 @@
       window.location.href = '/login.html';
     }
 
-    // ── STATE ──
     let menuItems = [], tables = [], currentTableId = null, currentOrderId = null, cart = [], currentCat = 'All';
 
-    // ── IMAGES ──
     const IMGS = {
       'Veg Soup': 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300&q=70',
       'Paneer Tikka': 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=300&q=70',
@@ -1153,6 +889,7 @@
       'Gulab Jamun': 'https://images.unsplash.com/photo-1601303516534-bf4c4b72f15c?w=300&q=70',
       'Ice Cream': 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=300&q=70',
     };
+
     const CAT_IMG = {
       'Starters': 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=300&q=70',
       'Mains': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70',
@@ -1160,12 +897,11 @@
       'Beverages': 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&q=70',
       'Desserts': 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&q=70',
     };
+
     function getImg(name, cat) { return IMGS[name] || CAT_IMG[cat] || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70'; }
 
-    // ── INIT ──
     window.onload = () => { loadMenu(); loadTables(); };
 
-    // ── NAVIGATION ──
     function showPage(page, btn) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + page).classList.add('active');
@@ -1174,58 +910,61 @@
       if (page === 'menu-admin') loadMenuAdmin();
       if (page === 'orders') loadOrders();
     }
+
     function setBNav(btn) {
       document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
 
-    // ── MOBILE BILL ──
     function openBill() { document.getElementById('bill-panel').classList.add('open'); document.getElementById('bill-overlay').classList.add('show'); }
     function closeBill() { document.getElementById('bill-panel').classList.remove('open'); document.getElementById('bill-overlay').classList.remove('show'); }
     function updateFab() { document.getElementById('fab-count').textContent = cart.reduce((s, i) => s + i.quantity, 0); }
 
-    // ── MENU ──
     async function loadMenu() {
       const res = await fetch('/api/menu');
       menuItems = await res.json();
       buildCats(); renderMenu();
     }
+
     function buildCats() {
       const cats = ['All', ...new Set(menuItems.map(m => m.category))];
       document.getElementById('cat-bar').innerHTML = cats.map(c =>
         `<button class="cat-btn ${c === currentCat ? 'active' : ''}" onclick="selCat('${c}')">${c}</button>`
       ).join('');
     }
+
     function selCat(c) { currentCat = c; buildCats(); renderMenu(); }
     function filterMenu() { renderMenu(); }
+
     function renderMenu() {
       const q = document.getElementById('search').value.toLowerCase();
       const list = menuItems.filter(m => (currentCat === 'All' || m.category === currentCat) && m.name.toLowerCase().includes(q));
       const grid = document.getElementById('menu-grid');
       if (!list.length) { grid.innerHTML = '<p class="empty-msg">No items found</p>'; return; }
       grid.innerHTML = list.map(m => `
-    <div class="mcard" onclick="addToCart(${m.id})">
-      <img src="${getImg(m.name, m.category)}" alt="${m.name}" onerror="this.style.display='none'">
-      <div class="mcard-body">
-        <div class="mcard-veg">${m.is_veg ? '🟢 Veg' : '🔴 Non-veg'}</div>
-        <div class="mcard-name">${m.name}</div>
-        <div class="mcard-price">₹${m.price}</div>
-      </div>
-    </div>`).join('');
+        <div class="mcard" onclick="addToCart(${m.id})">
+          <img src="${getImg(m.name, m.category)}" alt="${m.name}" onerror="this.style.display='none'">
+          <div class="mcard-body">
+            <div class="mcard-veg">${m.is_veg ? '🟢 Veg' : '🔴 Non-veg'}</div>
+            <div class="mcard-name">${m.name}</div>
+            <div class="mcard-price">₹${m.price}</div>
+          </div>
+        </div>`).join('');
     }
 
-    // ── TABLES ──
     async function loadTables() {
       const res = await fetch('/api/tables');
       tables = await res.json();
       renderTables();
     }
+
     function renderTables() {
       document.getElementById('table-grid').innerHTML = tables.map(t =>
         `<button class="tbtn ${t.status === 'occupied' ? 'occupied' : ''} ${t.id === currentTableId ? 'active' : ''}"
-      onclick="selTable(${t.id},${t.number})">T${t.number}</button>`
+        onclick="selTable(${t.id},${t.number})">T${t.number}</button>`
       ).join('');
     }
+
     async function selTable(id, num) {
       currentTableId = id;
       document.getElementById('tbl-label').textContent = 'Table ' + num;
@@ -1236,7 +975,6 @@
       renderTables(); renderBill(); updateFab();
     }
 
-    // ── CART ──
     function addToCart(mid) {
       if (!currentTableId) { openBill(); alert('Please select a table first!'); return; }
       const m = menuItems.find(x => x.id === mid);
@@ -1244,6 +982,7 @@
       if (ex) ex.quantity++; else cart.push({ menu_item_id: mid, name: m.name, price: m.price, quantity: 1 });
       renderBill(); updateFab();
     }
+
     function chQty(mid, d) {
       const i = cart.findIndex(c => c.menu_item_id === mid);
       if (i < 0) return;
@@ -1251,23 +990,26 @@
       if (cart[i].quantity <= 0) cart.splice(i, 1);
       renderBill(); updateFab();
     }
+
     function clearOrder() { if (!confirm('Clear all items?')) return; cart = []; renderBill(); updateFab(); }
+
     function renderBill() {
       const el = document.getElementById('order-items');
       if (!cart.length) { el.innerHTML = '<p class="empty-msg">No items yet</p>'; setTotals(0, 0); return; }
       el.innerHTML = cart.map(it => `
-    <div class="orow">
-      <span class="oname">${it.name}</span>
-      <div class="qty-ctrl">
-        <button class="qbtn" onclick="chQty(${it.menu_item_id},-1)">−</button>
-        <span class="qnum">${it.quantity}</span>
-        <button class="qbtn" onclick="chQty(${it.menu_item_id},1)">+</button>
-      </div>
-      <span class="oprice">₹${(it.price * it.quantity).toFixed(2)}</span>
-    </div>`).join('');
+        <div class="orow">
+          <span class="oname">${it.name}</span>
+          <div class="qty-ctrl">
+            <button class="qbtn" onclick="chQty(${it.menu_item_id},-1)">−</button>
+            <span class="qnum">${it.quantity}</span>
+            <button class="qbtn" onclick="chQty(${it.menu_item_id},1)">+</button>
+          </div>
+          <span class="oprice">₹${(it.price * it.quantity).toFixed(2)}</span>
+        </div>`).join('');
       const sub = cart.reduce((s, i) => s + i.price * i.quantity, 0);
       setTotals(sub, sub * parseFloat(document.getElementById('gst').value) / 100);
     }
+
     function setTotals(sub, gst) {
       const r = document.getElementById('gst').value;
       document.getElementById('sub').textContent = '₹' + sub.toFixed(2);
@@ -1276,7 +1018,6 @@
       document.getElementById('total').textContent = '₹' + (sub + gst).toFixed(2);
     }
 
-    // ── SAVE ──
     async function saveOrder() {
       if (!currentTableId) { alert('Select a table first!'); return; }
       if (!cart.length) { alert('Add items first!'); return; }
@@ -1285,7 +1026,6 @@
       await loadTables(); renderTables(); alert('✅ Order saved!');
     }
 
-    // ── PRINT ──
     function printBill() {
       if (!cart.length) { alert('No items!'); return; }
       const t = tables.find(x => x.id === currentTableId);
@@ -1319,7 +1059,6 @@
       win.document.close();
     }
 
-    // ── MARK PAID ──
     async function markPaid() {
       if (!currentOrderId) { alert('Save the order first!'); return; }
       if (!confirm('Mark as paid and free the table?')) return;
@@ -1329,25 +1068,25 @@
       alert('✅ Table is now free!');
     }
 
-    // ── MENU ADMIN ──
     async function loadMenuAdmin() {
       const res = await fetch('/api/menu');
       const items = await res.json();
       const tbody = document.getElementById('menu-tbody');
       if (!items.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No items</td></tr>'; return; }
       tbody.innerHTML = items.map((m, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td><div style="display:flex;align-items:center;gap:8px">
-        <img src="${getImg(m.name, m.category)}" style="width:38px;height:38px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'">
-        ${m.name}</div></td>
-      <td>${m.category}</td>
-      <td>₹${m.price}</td>
-      <td><span class="badge ${m.is_veg ? 'bveg' : 'bnveg'}">${m.is_veg ? 'Veg' : 'Non-veg'}</span></td>
-      <td><button class="lbtn" onclick="openEdit(${m.id})">Edit</button>
-          <button class="lbtn del" onclick="delItem(${m.id})">Remove</button></td>
-    </tr>`).join('');
+        <tr>
+          <td>${i + 1}</td>
+          <td><div style="display:flex;align-items:center;gap:8px">
+            <img src="${getImg(m.name, m.category)}" style="width:38px;height:38px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'">
+            ${m.name}</div></td>
+          <td>${m.category}</td>
+          <td>₹${m.price}</td>
+          <td><span class="badge ${m.is_veg ? 'bveg' : 'bnveg'}">${m.is_veg ? 'Veg' : 'Non-veg'}</span></td>
+          <td><button class="lbtn" onclick="openEdit(${m.id})">Edit</button>
+              <button class="lbtn del" onclick="delItem(${m.id})">Remove</button></td>
+        </tr>`).join('');
     }
+
     function openAdd() {
       document.getElementById('modal-title').textContent = 'Add Item';
       document.getElementById('eid').value = '';
@@ -1356,6 +1095,7 @@
       document.getElementById('eveg').checked = true;
       document.getElementById('overlay').classList.remove('hidden');
     }
+
     async function openEdit(id) {
       const items = await (await fetch('/api/menu')).json();
       const m = items.find(x => x.id === id); if (!m) return;
@@ -1367,7 +1107,9 @@
       document.getElementById('eveg').checked = m.is_veg === 1;
       document.getElementById('overlay').classList.remove('hidden');
     }
+
     function closeModal() { document.getElementById('overlay').classList.add('hidden'); }
+
     async function saveItem() {
       const id = document.getElementById('eid').value;
       const name = document.getElementById('ename').value.trim();
@@ -1380,27 +1122,28 @@
       else await fetch('/api/menu', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       closeModal(); loadMenu(); loadMenuAdmin();
     }
+
     async function delItem(id) {
       if (!confirm('Remove this item?')) return;
       await fetch(`/api/menu/${id}`, { method: 'DELETE' });
       loadMenu(); loadMenuAdmin();
     }
 
-    // ── ORDERS ──
     async function loadOrders() {
       const orders = await (await fetch('/api/orders')).json();
       const tbody = document.getElementById('orders-tbody');
       if (!orders.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px">No orders today</td></tr>'; return; }
       tbody.innerHTML = orders.map(o => `
-    <tr>
-      <td>#${o.id}</td>
-      <td>Table ${o.table_number}</td>
-      <td><span class="badge ${o.status === 'paid' ? 'bpaid' : 'bopen'}">${o.status}</span></td>
-      <td>${o.gst_rate}%</td>
-      <td>${o.created_at}</td>
-      <td><button class="lbtn" onclick="viewBill(${o.id})">View Bill</button></td>
-    </tr>`).join('');
+        <tr>
+          <td>#${o.id}</td>
+          <td>Table ${o.table_number}</td>
+          <td><span class="badge ${o.status === 'paid' ? 'bpaid' : 'bopen'}">${o.status}</span></td>
+          <td>${o.gst_rate}%</td>
+          <td>${o.created_at}</td>
+          <td><button class="lbtn" onclick="viewBill(${o.id})">View Bill</button></td>
+        </tr>`).join('');
     }
+
     async function viewBill(id) {
       const o = await (await fetch(`/api/orders/${id}/bill`)).json();
       const win = window.open('', '_blank', 'width=400,height=580');
